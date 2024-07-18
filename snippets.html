@@ -130,30 +130,30 @@
                 <div class="terminal-body">
                     <pre><code class="language-python">
                         import pandas as pd
-from sklearn.model_selection import train_test_split
-from sklearn.ensemble import RandomForestRegressor
-from sklearn.metrics import mean_absolute_error
+                        from sklearn.model_selection import train_test_split
+                        from sklearn.ensemble import RandomForestRegressor
+                        from sklearn.metrics import mean_absolute_error
 
-# Load your cleaned stock market data
-data = pd.read_csv('cleaned_stock_data.csv')
+                        # Load your cleaned stock market data
+                        data = pd.read_csv('cleaned_stock_data.csv')
 
-# Feature selection
-features = data[['Open', 'High', 'Low', 'Volume', 'SMA_50', 'Volatility']]
-target = data['Close']
+                        # Feature selection
+                        features = data[['Open', 'High', 'Low', 'Volume', 'SMA_50', 'Volatility']]
+                        target = data['Close']
 
-# Split the data into training and testing sets
-X_train, X_test, y_train, y_test = train_test_split(features, target, test_size=0.2, random_state=42)
+                        # Split the data into training and testing sets
+                        X_train, X_test, y_train, y_test = train_test_split(features, target, test_size=0.2, random_state=42)
 
-# Initialize and train the model
-model = RandomForestRegressor()
-model.fit(X_train, y_train)
+                        # Initialize and train the model
+                        model = RandomForestRegressor()
+                        model.fit(X_train, y_train)
 
-# Make predictions
-predictions = model.predict(X_test)
+                        # Make predictions
+                        predictions = model.predict(X_test)
 
-# Evaluate the model
-mae = mean_absolute_error(y_test, predictions)
-print(f'Mean Absolute Error: {mae}')
+                        # Evaluate the model
+                        mae = mean_absolute_error(y_test, predictions)
+                        print(f'Mean Absolute Error: {mae}')
                     </code></pre>
                 </div>
             </div>
@@ -176,75 +176,75 @@ print(f'Mean Absolute Error: {mae}')
                 <div class="terminal-body">
                     <pre><code class="language-python">
                         import yfinance as yf
-import pandas as pd
-from scipy import stats
-import numpy as np
-from sklearn.preprocessing import MinMaxScaler
-from sklearn.model_selection import train_test_split
-from sklearn.ensemble import RandomForestRegressor
-from sklearn.metrics import mean_absolute_error
+                        import pandas as pd
+                        from scipy import stats
+                        import numpy as np
+                        from sklearn.preprocessing import MinMaxScaler
+                        from sklearn.model_selection import train_test_split
+                        from sklearn.ensemble import RandomForestRegressor
+                        from sklearn.metrics import mean_absolute_error
 
-# Step 1: Collect Stock Market Data
-ticker_symbol = 'TATAMOTORS.NS'
-ticker_data = yf.Ticker(ticker_symbol)
-hist = ticker_data.history(period='1d', start='2020-1-1', end='2024-1-1')
-hist.to_csv('tata_motors_stock_data.csv')
+                        # Step 1: Collect Stock Market Data
+                        ticker_symbol = 'TATAMOTORS.NS'
+                        ticker_data = yf.Ticker(ticker_symbol)
+                        hist = ticker_data.history(period='1d', start='2020-1-1', end='2024-1-1')
+                        hist.to_csv('tata_motors_stock_data.csv')
 
-# Step 2: Clean and Preprocess the Data
-data = pd.read_csv('tata_motors_stock_data.csv')
+                        # Step 2: Clean and Preprocess the Data
+                        data = pd.read_csv('tata_motors_stock_data.csv')
 
-# Fill missing values
-data.ffill(inplace=True)
+                        # Fill missing values
+                        data.ffill(inplace=True)
 
-# Remove duplicates
-data.drop_duplicates(inplace=True)
+                        # Remove duplicates
+                        data.drop_duplicates(inplace=True)
 
-# Normalize the data
-scaler = MinMaxScaler()
-data[['Open', 'High', 'Low', 'Close', 'Volume']] = scaler.fit_transform(data[['Open', 'High', 'Low', 'Close', 'Volume']])
+                        # Normalize the data
+                        scaler = MinMaxScaler()
+                        data[['Open', 'High', 'Low', 'Close', 'Volume']] = scaler.fit_transform(data[['Open', 'High', 'Low', 'Close', 'Volume']])
 
-# Feature engineering
-data['SMA_50'] = data['Close'].rolling(window=50).mean()
-data['Volatility'] = data['Close'].rolling(window=50).std()
+                        # Feature engineering
+                        data['SMA_50'] = data['Close'].rolling(window=50).mean()
+                        data['Volatility'] = data['Close'].rolling(window=50).std()
 
-# Remove outliers
-data = data[(np.abs(stats.zscore(data[['Open', 'High', 'Low', 'Close', 'Volume']])) < 3).all(axis=1)]
+                        # Remove outliers
+                        data = data[(np.abs(stats.zscore(data[['Open', 'High', 'Low', 'Close', 'Volume']])) < 3).all(axis=1)]
 
-data.to_csv('cleaned_tata_motors_stock_data.csv', index=False)
+                        data.to_csv('cleaned_tata_motors_stock_data.csv', index=False)
 
-# Step 3: Train a Machine Learning Model
-data = pd.read_csv('cleaned_tata_motors_stock_data.csv')
+                        # Step 3: Train a Machine Learning Model
+                        data = pd.read_csv('cleaned_tata_motors_stock_data.csv')
 
-# Feature selection
-features = data[['Open', 'High', 'Low', 'Volume', 'SMA_50', 'Volatility']]
-target = data['Close']
+                        # Feature selection
+                        features = data[['Open', 'High', 'Low', 'Volume', 'SMA_50', 'Volatility']]
+                        target = data['Close']
 
-# Split the data
-X_train, X_test, y_train, y_test = train_test_split(features, target, test_size=0.2, random_state=42)
+                        # Split the data
+                        X_train, X_test, y_train, y_test = train_test_split(features, target, test_size=0.2, random_state=42)
 
-# Initialize and train the model
-model = RandomForestRegressor()
-model.fit(X_train, y_train)
+                        # Initialize and train the model
+                        model = RandomForestRegressor()
+                        model.fit(X_train, y_train)
 
-# Make predictions
-predictions = model.predict(X_test)
+                        # Make predictions
+                        predictions = model.predict(X_test)
 
-# Evaluate the model
-mae = mean_absolute_error(y_test, predictions)
-print(f'Mean Absolute Error: {mae}')
+                        # Evaluate the model
+                        mae = mean_absolute_error(y_test, predictions)
+                        print(f'Mean Absolute Error: {mae}')
 
-# Step 4: Make Buy/Sell Decision
-current_price = data.iloc[-1]['Close']
-predicted_price = model.predict(pd.DataFrame([features.iloc[-1].values], columns=features.columns))[0]
+                        # Step 4: Make Buy/Sell Decision
+                        current_price = data.iloc[-1]['Close']
+                        predicted_price = model.predict(pd.DataFrame([features.iloc[-1].values], columns=features.columns))[0]
 
-if predicted_price > current_price:
-    decision = "Buy"
-else:
-    decision = "Do not buy"
+                        if predicted_price > current_price:
+                            decision = "Buy"
+                        else:
+                            decision = "Do not buy"
 
-print(f'Current Price: {current_price}')
-print(f'Predicted Price: {predicted_price}')
-print(f'Decision: {decision}')
+                        print(f'Current Price: {current_price}')
+                        print(f'Predicted Price: {predicted_price}')
+                        print(f'Decision: {decision}')
 
                     </code></pre>
                 </div>
@@ -268,33 +268,33 @@ print(f'Decision: {decision}')
                 <div class="terminal-body">
                     <pre><code class="language-python">
                        import nltk
-from nltk.chat.util import Chat, reflections
+                       from nltk.chat.util import Chat, reflections
 
-# Define pairs of patterns and responses
-pairs = [
-    [
-        (r"my name is (.*)", ["Hello %1, How are you today ?",]),
-        (r"what is your name ?", ["I am a bot created by Pradyumn Tandon. You can call me Canopus.",]),
-        (r"how are you ?", ["I'm doing good\nHow about You ?",]),
-        (r"sorry (.*)", ["Its alright","It's OK, never mind",]),
-        (r"i'm (.*) (good|well|okay|ok)", ["Nice to hear that","Alright :)",]),
-        (r"(hi|hey|hello) (.*)", ["Hello", "Hey there",]),
-        (r"(.*) age?", ["I'm a computer program dude\nSeriously you are asking me this?",]),
-        (r"(.*) created ?", ["I was created by a group of developers using NLTK and Python. Why do you ask?",]),
-        (r"(.*) (location|city) ?", ['I am virtual, I live inside computers.',]),
-        (r"how is weather in (.*)", ["Weather in %1 is awesome like always","Too hot here in %1","Too cold here in %1","Never been to %1",]),
-        (r"i work in (.*)", ["%1 is an amazing company, I have heard about it.",]),
-        (r"(.*)raining in (.*)", ["No rain since last week here in %2","Damn its raining too much here in %2"]),
-        (r"is (.*) a good time to visit (.*)", ["Yes, %1 is a great time to visit %2","No, %1 is not a good time to visit %2",]),
-        (r"quit", ["Bye, take care. See you soon :) ","It was nice talking to you. Bye :)",]),
-    ]
-]
+                       # Define pairs of patterns and responses
+                       pairs = [
+                           [
+                               (r"my name is (.*)", ["Hello %1, How are you today ?",]),
+                               (r"what is your name ?", ["I am a bot created by Pradyumn Tandon. You can call me Canopus.",]),
+                               (r"how are you ?", ["I'm doing good\nHow about You ?",]),
+                               (r"sorry (.*)", ["Its alright","It's OK, never mind",]),
+                               (r"i'm (.*) (good|well|okay|ok)", ["Nice to hear that","Alright :)",]),
+                               (r"(hi|hey|hello) (.*)", ["Hello", "Hey there",]),
+                               (r"(.*) age?", ["I'm a computer program dude\nSeriously you are asking me this?",]),
+                               (r"(.*) created ?", ["I was created by a group of developers using NLTK and Python. Why do you ask?",]),
+                               (r"(.*) (location|city) ?", ['I am virtual, I live inside computers.',]),
+                               (r"how is weather in (.*)", ["Weather in %1 is awesome like always","Too hot here in %1","Too cold here in %1","Never been to %1",]),
+                               (r"i work in (.*)", ["%1 is an amazing company, I have heard about it.",]),
+                               (r"(.*)raining in (.*)", ["No rain since last week here in %2","Damn its raining too much here in %2"]),
+                               (r"is (.*) a good time to visit (.*)", ["Yes, %1 is a great time to visit %2","No, %1 is not a good time to visit %2",]),
+                               (r"quit", ["Bye, take care. See you soon :) ","It was nice talking to you. Bye :)",]),
+                           ]
+                       ]
 
-# Create chatbot
-def chat():
-    print("Hi! I am a chatbot created for your service.")
-    chat = Chat(pairs, reflections)
-    chat.converse()
+                       # Create chatbot
+                       def chat():
+                           print("Hi! I am a chatbot created for your service.")
+                           chat = Chat(pairs, reflections)
+                           chat.converse()
 
 # Call the chat function to begin conversation
 if __name__ == "__main__":
